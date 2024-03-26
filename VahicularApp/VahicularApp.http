@@ -1,0 +1,6 @@
+@VahicularApp_HostAddress = http://localhost:5178
+
+GET {{VahicularApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

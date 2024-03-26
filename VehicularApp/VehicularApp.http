@@ -1,0 +1,59 @@
+@VehicularApp_HostAddress = http://localhost:5258
+
+GET {{VehicularApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+GET {{VehicularApp_HostAddress}}/api/car
+
+###
+
+POST {{VehicularApp_HostAddress}}/api/car
+Content-Type: application/json
+
+{
+  "Name" : "Nano",
+  "EngineCapacity" : 120,
+  "EngineType" : "Petrol",
+  "FuelCapacity" : 60.0,
+  "BrakeType" : "Disc",
+  "Seats" : 2,
+  "ManufacturerId" : 1,
+  "ColorId" : 3
+}
+
+###
+
+GET {{VehicularApp_HostAddress}}/api/car/1
+
+###
+
+DELETE {{VehicularApp_HostAddress}}/api/car/0
+
+###
+
+PUT {{VehicularApp_HostAddress}}/api/car/1
+Content-Type: application/json
+
+{
+  "Id" : 1,
+  "Name" : "Nano Edited",
+  "EngineCapacity" : 120,
+  "EngineType" : "Petrol",
+  "FuelCapacity" : 60.0,
+  "BrakeType" : "Disc",
+  "Seats" : 2,
+  "ManufacturerId" : 1,
+  "ColorId" : 2
+}
+
+###
+
+GET {{VehicularApp_HostAddress}}/manufacturers
+
+###
+
+GET {{VehicularApp_HostAddress}}/colors
+
+###
