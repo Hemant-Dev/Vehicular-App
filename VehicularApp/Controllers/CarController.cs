@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Vehicular.DTOs;
 using Vehicular.IServices;
 using Vehicular.Model;
@@ -152,6 +154,56 @@ namespace VehicularApp.Controllers
 
                 throw;
             }
+        }
+
+        // GET api/<CarController>/engines
+        [HttpGet("engines")]
+        public async Task<ActionResult<Engine>> GetAllEngines()
+        {
+            try
+            {
+                var engineList = await _carService.GetAllEnginesAsync();
+                return Ok(engineList);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        
+        // GET api/<CarController>/brakes
+        [HttpGet("brakes")]
+        public async Task<ActionResult<Engine>> GetALlBrakes()
+        {
+            try
+            {
+                var brakesList = await _carService.GetAllBrakesAsync();
+                return Ok(brakesList);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // GET api/<CarController>/filter?searchName=''
+        [HttpGet("filter")]
+        public async Task<ActionResult<GetCarDTO>> GetFilteredCars(string filter)
+        {
+            //var filteredCarDTOList = await _carService.GetAllCarsAsync();
+            //if (!string.IsNullOrEmpty(searchName))
+            //{
+            //    filteredCarDTOList = filteredCarDTOList.Where(car => car.Name.ToLower().Contains(searchName.ToLower()));
+            //}
+            //return Ok(filteredCarDTOList);
+            if (!string.IsNullOrEmpty(filter))
+            {
+                var filteredDTOList = await _carService.GetFilteredCarDTOList(filter);
+                return Ok(filteredDTOList);
+            }
+            return NoContent();
         }
 
     }

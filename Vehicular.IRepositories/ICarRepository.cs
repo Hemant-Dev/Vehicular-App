@@ -11,5 +11,9 @@ namespace Vehicular.IRepositories
     {
         Task<IEnumerable<Manufacturer>> GetAllManufacturersAsync();
         Task<IEnumerable<Color>> GetAllColorsAsync();
+        Task<IEnumerable<Engine>> GetAllEnginesAsync();
+        Task<IEnumerable<Brake>> GetAllBrakesAsync();
+
+        Task<IEnumerable<Car>> GetCarFilterAsync(string filter);
     }
 }

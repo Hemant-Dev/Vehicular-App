@@ -57,3 +57,10 @@ GET {{VehicularApp_HostAddress}}/manufacturers
 GET {{VehicularApp_HostAddress}}/colors
 
 ###
+
+
+###
+
+GET {{VehicularApp_HostAddress}}/api/car/filter?filter=n
+
+###
