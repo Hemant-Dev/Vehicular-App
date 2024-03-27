@@ -12,6 +12,8 @@ namespace Vehicular.IServices
 
         Task<IEnumerable<Manufacturer>> GetAllManufacturersAsync();
         Task<IEnumerable<Color>> GetAllColorsAsync();
-        
+        Task<IEnumerable<Engine>> GetAllEnginesAsync();
+        Task<IEnumerable<Brake>> GetAllBrakesAsync();
+        Task<IEnumerable<GetCarDTO>> GetFilteredCarDTOList(string filter);   
     }
 }

@@ -20,15 +20,15 @@ namespace Vahicular.Services
             {
                 Name = carDTO.Name,
                 EngineCapacity = carDTO.EngineCapacity,
-                EngineType = carDTO.EngineType,
+                EngineId = carDTO.EngineId,
                 FuelCapacity = carDTO.FuelCapacity,
-                BrakeType = carDTO.BrakeType,
+                BrakeId = carDTO.BrakeId,
                 Seats = carDTO.Seats,
                 ManufacturerId = carDTO.ManufacturerId,
                 ColorId = carDTO.ColorId,
             };
             var result = await _carRepository.AddAsync(car);
-            var newCarDTO = new GetCarDTO(result.Id, result.Name, result.EngineCapacity, result.EngineType, result.FuelCapacity, result.BrakeType, result.Seats, result.ManufacturerId, result.ColorId);
+            var newCarDTO = new GetCarDTO(result.Id, result.Name, result.EngineCapacity, result.EngineId, result.FuelCapacity, result.BrakeId, result.Seats, result.ManufacturerId, result.ColorId);
 
             return newCarDTO;
         }
@@ -45,7 +45,7 @@ namespace Vahicular.Services
             if(carsList != null)
             {
                 var carsDTOList = carsList.Select((car) =>
-                    new GetCarDTO(car.Id, car.Name, car.EngineCapacity, car.EngineType, car.FuelCapacity, car.BrakeType, car.Seats, car.ManufacturerId, car.ColorId));
+                    new GetCarDTO(car.Id, car.Name, car.EngineCapacity, car.EngineId, car.FuelCapacity, car.BrakeId, car.Seats, car.ManufacturerId, car.ColorId));
                 return carsDTOList;
             }
             return null;
@@ -58,7 +58,7 @@ namespace Vahicular.Services
             var car = await _carRepository.GetByIdAsync(carId);
             if(car != null)
             {
-                return new GetCarDTO(car.Id, car.Name, car.EngineCapacity, car.EngineType, car.FuelCapacity, car.BrakeType, car.Seats, car.ManufacturerId, car.ColorId);
+                return new GetCarDTO(car.Id, car.Name, car.EngineCapacity, car.EngineId,  car.FuelCapacity, car.BrakeId, car.Seats, car.ManufacturerId, car.ColorId);
             }
             return null;
         }
@@ -73,15 +73,15 @@ namespace Vahicular.Services
                 oldCar.Id = id;
                 oldCar.Name = carDTO.Name;
                 oldCar.EngineCapacity = carDTO.EngineCapacity;
-                oldCar.EngineType = carDTO.EngineType;
+                oldCar.EngineId = carDTO.EngineId;
                 oldCar.FuelCapacity = carDTO.FuelCapacity;
-                oldCar.BrakeType = carDTO.BrakeType;
+                oldCar.BrakeId = carDTO.BrakeId;
                 oldCar.Seats = carDTO.Seats;
                 oldCar.ManufacturerId = carDTO.ManufacturerId;
                 oldCar.ColorId = carDTO.ColorId;    
 
                 await _carRepository.UpdateAsync(id, oldCar);
-                return new GetCarDTO(oldCar.Id, oldCar.Name, oldCar.EngineCapacity, oldCar.EngineType, oldCar.FuelCapacity, oldCar.BrakeType, oldCar.Seats, oldCar.ManufacturerId, oldCar.ColorId);
+                return new GetCarDTO(oldCar.Id, oldCar.Name, oldCar.EngineCapacity, oldCar.EngineId,  oldCar.FuelCapacity, oldCar.BrakeId, oldCar.Seats, oldCar.ManufacturerId, oldCar.ColorId);
             }
             return null;
 
@@ -96,6 +96,25 @@ namespace Vahicular.Services
         {
             return _carRepository.GetAllManufacturersAsync();
         }
+        public Task<IEnumerable<Engine>> GetAllEnginesAsync()
+        {
+            return _carRepository.GetAllEnginesAsync();
+        }
 
+        public Task<IEnumerable<Brake>> GetAllBrakesAsync()
+        {
+            return _carRepository.GetAllBrakesAsync();
+        }
+
+        public async Task<IEnumerable<GetCarDTO>> GetFilteredCarDTOList(string filter)
+        {
+            var filteredCarList = await _carRepository.GetCarFilterAsync(filter);
+            var filteredCarDTOList = filteredCarList.Select( car => new GetCarDTO(
+                    car.Id, car.Name, car.EngineCapacity, car.EngineId, car.FuelCapacity, car.BrakeId, car.Seats, car.ManufacturerId, car.ColorId
+                ));
+            return filteredCarDTOList;
+        }
+
+        
     }
 }

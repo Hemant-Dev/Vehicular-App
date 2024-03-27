@@ -12,5 +12,7 @@ namespace Vehicular.Data
         public DbSet<Car> Cars { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<Color> Colors { get; set; }
+        public DbSet<Engine> Engines { get; set; }
+        public DbSet<Brake> Brakes { get; set; }
     }
 }

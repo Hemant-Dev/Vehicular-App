@@ -15,14 +15,10 @@ namespace Vehicular.Model
         [Required(ErrorMessage = "Engine Capacity is required.")]
 
         public int EngineCapacity { get; set; }
-        [Required(ErrorMessage = "Engine Type is required.")]
-        [StringLength(25, ErrorMessage = "Type Length cannot be greater than 25 chars")]
-        public string EngineType { get; set; }
+        
         [Required(ErrorMessage = "Fuel Capacity is required.")]
         public decimal FuelCapacity { get; set; }
-        [Required(ErrorMessage = "Brake Type is required.")]
-        [StringLength(50)]
-        public string BrakeType { get; set; }
+        
         [Required(ErrorMessage = "Seat Capacity is required")]
         public int Seats { get; set; }
 
@@ -35,5 +31,15 @@ namespace Vehicular.Model
         [ForeignKey(nameof(Color))]
         public int ColorId { get; set; }
         public virtual Color Color { get; set; }
+
+        [ForeignKey(nameof(Engine))]
+        [Required(ErrorMessage = "EngineId is Required.")]
+        public int EngineId { get; set; }
+        public virtual Engine Engine { get; set; }
+
+        [ForeignKey(nameof(Brake))]
+        [Required(ErrorMessage = "BrakeId is Required.")]
+        public int BrakeId { get; set; }
+        public virtual Brake Brake{ get; set; }
     }
 }
