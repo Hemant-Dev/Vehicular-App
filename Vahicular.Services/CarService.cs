@@ -115,6 +115,24 @@ namespace Vahicular.Services
             return filteredCarDTOList;
         }
 
-        
+        public async Task<IEnumerable<GetCarDTO>> GetAdvanceFilteredCarDTOList(GetCarDTO carDTO)
+        {
+            var advanceFilteredCarList = await _carRepository.GetCarAdvanceFilterAsync(new Car()
+            {
+                Name = carDTO.Name,
+                EngineCapacity = carDTO.EngineCapacity,
+                EngineId = carDTO.EngineId,
+                FuelCapacity = carDTO.FuelCapacity,
+                BrakeId = carDTO.BrakeId,
+                Seats = carDTO.Seats,
+                ManufacturerId = carDTO.ManufacturerId,
+                ColorId = carDTO.ColorId,
+            });
+
+            var advanceFilteredCarDTOList = advanceFilteredCarList.Select( car => new GetCarDTO(
+                    car.Id, car.Name, car.EngineCapacity, car.EngineId, car.FuelCapacity, car.BrakeId, car.Seats, car.ManufacturerId, car.ColorId
+                ));
+            return advanceFilteredCarDTOList;
+        }
     }
 }

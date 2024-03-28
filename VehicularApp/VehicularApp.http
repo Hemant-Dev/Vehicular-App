@@ -64,3 +64,20 @@ GET {{VehicularApp_HostAddress}}/colors
 GET {{VehicularApp_HostAddress}}/api/car/filter?filter=n
 
 ###
+
+POST {{VehicularApp_HostAddress}}/api/car/advancefilter
+Content-Type: application/json
+
+{
+  "id": 0,
+  "name": "Ana",
+  "engineCapacity": 11,
+  "engineId": 2,
+  "fuelCapacity": 19.00,
+  "brakeId": 2,
+  "seats": 2,
+  "manufacturerId": 2,
+  "colorId": 2
+}
+
+###

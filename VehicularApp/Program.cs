@@ -8,7 +8,7 @@ using Vehicular.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
-var connectionString = configuration.GetConnectionString("HomeConnection");
+var connectionString = configuration.GetConnectionString("DefaultConnection");
 
 
 

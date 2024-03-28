@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 using Vehicular.DTOs;
 using Vehicular.IServices;
 using Vehicular.Model;
@@ -126,7 +127,7 @@ namespace VehicularApp.Controllers
 
         // GET api/<CarController>/manufacturers
         [HttpGet("manufacturers")]
-        public async Task<ActionResult<Manufacturer>> GetAllManufacturers()
+        public async Task<ActionResult<IEnumerable<Manufacturer>>> GetAllManufacturers()
         {   
             try
             {
@@ -142,7 +143,7 @@ namespace VehicularApp.Controllers
 
         // GET api/<CarController>/colors
         [HttpGet("colors")]
-        public async Task<ActionResult<Manufacturer>> GetAllColors()
+        public async Task<ActionResult<IEnumerable<Color>>> GetAllColors()
         {
             try
             {
@@ -158,7 +159,7 @@ namespace VehicularApp.Controllers
 
         // GET api/<CarController>/engines
         [HttpGet("engines")]
-        public async Task<ActionResult<Engine>> GetAllEngines()
+        public async Task<ActionResult<IEnumerable<Engine>>> GetAllEngines()
         {
             try
             {
@@ -174,7 +175,7 @@ namespace VehicularApp.Controllers
         
         // GET api/<CarController>/brakes
         [HttpGet("brakes")]
-        public async Task<ActionResult<Engine>> GetALlBrakes()
+        public async Task<ActionResult<IEnumerable<Brake>>> GetALlBrakes()
         {
             try
             {
@@ -190,7 +191,7 @@ namespace VehicularApp.Controllers
 
         // GET api/<CarController>/filter?searchName=''
         [HttpGet("filter")]
-        public async Task<ActionResult<GetCarDTO>> GetFilteredCars(string filter)
+        public async Task<ActionResult<IEnumerable<GetCarDTO>>> GetFilteredCars(string filter)
         {
             //var filteredCarDTOList = await _carService.GetAllCarsAsync();
             //if (!string.IsNullOrEmpty(searchName))
@@ -202,6 +203,18 @@ namespace VehicularApp.Controllers
             {
                 var filteredDTOList = await _carService.GetFilteredCarDTOList(filter);
                 return Ok(filteredDTOList);
+            }
+            return NoContent();
+        }
+
+        // GET api/<CarController>/advancefilter?searchName=''
+        [HttpPost("advancefilter")]
+        public async Task<ActionResult<IEnumerable<GetCarDTO>>> GetAdvanceFilteredCars([FromBody] GetCarDTO carDTO)
+        {
+            if(carDTO != null)
+            {
+                var advanceFilteredCarDTOList = await _carService.GetAdvanceFilteredCarDTOList(carDTO);
+                return Ok(advanceFilteredCarDTOList);
             }
             return NoContent();
         }

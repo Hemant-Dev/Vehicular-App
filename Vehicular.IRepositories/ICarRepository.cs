@@ -15,5 +15,6 @@ namespace Vehicular.IRepositories
         Task<IEnumerable<Brake>> GetAllBrakesAsync();
 
         Task<IEnumerable<Car>> GetCarFilterAsync(string filter);
+        Task<IEnumerable<Car>> GetCarAdvanceFilterAsync(Car carObj);
     }
 }
