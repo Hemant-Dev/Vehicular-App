@@ -193,31 +193,76 @@ namespace VehicularApp.Controllers
         [HttpGet("filter")]
         public async Task<ActionResult<IEnumerable<GetCarDTO>>> GetFilteredCars(string filter)
         {
-            //var filteredCarDTOList = await _carService.GetAllCarsAsync();
-            //if (!string.IsNullOrEmpty(searchName))
-            //{
-            //    filteredCarDTOList = filteredCarDTOList.Where(car => car.Name.ToLower().Contains(searchName.ToLower()));
-            //}
-            //return Ok(filteredCarDTOList);
-            if (!string.IsNullOrEmpty(filter))
+
+            try
             {
-                var filteredDTOList = await _carService.GetFilteredCarDTOList(filter);
-                return Ok(filteredDTOList);
+                if (!string.IsNullOrEmpty(filter))
+                {
+                    var filteredDTOList = await _carService.GetFilteredCarDTOList(filter);
+                    return Ok(filteredDTOList);
+                }
+                return NoContent();
             }
-            return NoContent();
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        // GET api/<CarController>/advancefilter?searchName=''
+        // POST api/<CarController>/advancefilter?searchName=''
         [HttpPost("advancefilter")]
         public async Task<ActionResult<IEnumerable<GetCarDTO>>> GetAdvanceFilteredCars([FromBody] GetCarDTO carDTO)
         {
-            if(carDTO != null)
+            try
             {
-                var advanceFilteredCarDTOList = await _carService.GetAdvanceFilteredCarDTOList(carDTO);
-                return Ok(advanceFilteredCarDTOList);
+                if (carDTO != null)
+                {
+                    var advanceFilteredCarDTOList = await _carService.GetAdvanceFilteredCarDTOList(carDTO);
+                    return Ok(advanceFilteredCarDTOList);
+                }
+                return NoContent();
             }
-            return NoContent();
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
+        // GET api/<CarController>/paginated?page=&pageSize=
+        //[HttpGet("paginated")]
+        //public async Task<ActionResult<(IEnumerable<GetCarDTO>, int)>> GetAllPaginatedData(int page, int pageSize)
+        //{
+        //    if(page > 0)
+        //    {
+        //        var paginatedCarDTOListAndTotalPages = await _carService.GetPaginatedCarDTOList(page, pageSize);
+        //        return Ok((paginatedCarDTOListAndTotalPages));
+        //    }
+        //    else
+        //    {
+        //        return NotFound("Page No cannot be negative!!");
+        //    }
+
+        //}
+        [HttpGet("paginated")]
+        public async Task<ActionResult<Paginated>> GetAllPaginatedData(int page, int pageSize)
+        {
+            if (page > 0)
+            {
+                var paginatedCarDTOListAndTotalPages = await _carService.GetPaginatedCarDTOList(page, pageSize);
+                var result = new Paginated()
+                {
+                    CarDTOs = paginatedCarDTOListAndTotalPages.Item1,
+                    TotalPages = paginatedCarDTOListAndTotalPages.Item2
+                };
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound("Page No cannot be negative!!");
+            }
+
+        }
     }
 }

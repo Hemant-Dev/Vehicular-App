@@ -81,3 +81,7 @@ Content-Type: application/json
 }
 
 ###
+
+GET {{VehicularApp_HostAddress}}/api/car/paginated?page=1&pageSize=3
+
+###

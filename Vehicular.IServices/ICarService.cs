@@ -16,5 +16,6 @@ namespace Vehicular.IServices
         Task<IEnumerable<Brake>> GetAllBrakesAsync();
         Task<IEnumerable<GetCarDTO>> GetFilteredCarDTOList(string filter);
         Task<IEnumerable<GetCarDTO>> GetAdvanceFilteredCarDTOList(GetCarDTO carDTO);
+        Task<(IEnumerable<GetCarDTO>, int)> GetPaginatedCarDTOList(int page, int pageSize);
     }
 }

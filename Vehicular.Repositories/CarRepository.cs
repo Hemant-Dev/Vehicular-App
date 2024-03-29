@@ -92,5 +92,15 @@ namespace Vehicular.Repositories
             return await query.ToListAsync();
         }
 
+        public async Task<(IEnumerable<Car>, int)> GetPaginatedData(int page, int pageSize)
+        {
+            var query = _dbContext.Cars.AsQueryable();
+            var totalCount = query.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+            query = query.Skip((page-1) * pageSize).Take(pageSize);
+
+            return (await query.ToListAsync(), totalPages);
+        }
     }
 }
