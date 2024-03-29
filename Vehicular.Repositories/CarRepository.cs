@@ -41,7 +41,7 @@ namespace Vehicular.Repositories
        
         public async Task<IEnumerable<Car>> GetCarFilterAsync(string filter)
         {
-            //return await _dbContext.Cars.Include(x=>x.Color).Include(x=>x.Manufacturer).Where(f=>f.Manufacturer.manufacturerName.Contains(filter) || f.Color.ColorName.Contains(filter)).ToListAsync();
+            
             return await _dbContext.Cars.Include(car => car.Color).Include(car => car.Manufacturer).Include(car => car.Engine).Include(car => car.Brake).Where(car => car.Color.ColorName.Contains(filter)
             || car.Manufacturer.manufacturerName.Contains(filter)
             || car.Engine.EngineName.Contains(filter)
@@ -101,6 +101,24 @@ namespace Vehicular.Repositories
             query = query.Skip((page-1) * pageSize).Take(pageSize);
 
             return (await query.ToListAsync(), totalPages);
+        }
+
+        public async Task<(IEnumerable<Car>, int)> GetPaginatedCarFiltersAsync(int page, int pageSize, string filter)
+        {
+            var carsList = await _dbContext.Cars.Include(car => car.Color).Include(car => car.Manufacturer).Include(car => car.Engine).Include(car => car.Brake).Where(car => car.Color.ColorName.Contains(filter)
+            || car.Manufacturer.manufacturerName.Contains(filter)
+            || car.Engine.EngineName.Contains(filter)
+            || car.Brake.BrakeName.Contains(filter)
+            || car.Name.Contains(filter)
+            || car.Seats.ToString().Contains(filter)
+            || car.EngineCapacity.ToString().Contains(filter)
+            || car.FuelCapacity.ToString().Contains(filter)
+            ).ToListAsync();
+
+            var totalCount = carsList.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            carsList = carsList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            return (carsList, totalPages);
         }
     }
 }

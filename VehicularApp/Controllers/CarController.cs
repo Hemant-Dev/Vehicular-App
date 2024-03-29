@@ -191,15 +191,38 @@ namespace VehicularApp.Controllers
 
         // GET api/<CarController>/filter?searchName=''
         [HttpGet("filter")]
-        public async Task<ActionResult<IEnumerable<GetCarDTO>>> GetFilteredCars(string filter)
+        //public async Task<ActionResult<IEnumerable<GetCarDTO>>> GetFilteredCars(string filter)
+        //{
+
+        //    try
+        //    {
+        //        if (!string.IsNullOrEmpty(filter))
+        //        {
+        //            var filteredDTOList = await _carService.GetFilteredCarDTOList(filter);
+        //            return Ok(filteredDTOList);
+        //        }
+        //        return NoContent();
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+        public async Task<ActionResult<Paginated>> GetFilteredCars(int page, int pageSize, string filter)
         {
 
             try
             {
                 if (!string.IsNullOrEmpty(filter))
                 {
-                    var filteredDTOList = await _carService.GetFilteredCarDTOList(filter);
-                    return Ok(filteredDTOList);
+                    var filteredDTOListAndTotalPages = await _carService.GetPaginatedFilteredCarDTOList(page, pageSize, filter);
+                    var result = new Paginated()
+                    {
+                        CarDTOs = filteredDTOListAndTotalPages.Item1,
+                        TotalPages = filteredDTOListAndTotalPages.Item2
+                    };
+                    return Ok(result);
                 }
                 return NoContent();
             }

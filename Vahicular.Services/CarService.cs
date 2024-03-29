@@ -143,5 +143,14 @@ namespace Vahicular.Services
                    ));
             return (paginatedCarDTOList, paginatedCarListAndTotalPages.Item2);
         }
+
+        public async Task<(IEnumerable<GetCarDTO>, int)> GetPaginatedFilteredCarDTOList(int page, int pageSize, string filter)
+        {
+            var paginatedCarFilteredListAndTotalPages = await _carRepository.GetPaginatedCarFiltersAsync(page, pageSize, filter);
+            var paginatedCarDTOFilteredList = paginatedCarFilteredListAndTotalPages.Item1.Select(car => new GetCarDTO(
+                    car.Id, car.Name, car.EngineCapacity, car.EngineId, car.FuelCapacity, car.BrakeId, car.Seats, car.ManufacturerId, car.ColorId
+                ));
+            return (paginatedCarDTOFilteredList, paginatedCarFilteredListAndTotalPages.Item2);
+        }
     }
 }
