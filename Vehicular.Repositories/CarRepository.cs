@@ -120,5 +120,47 @@ namespace Vehicular.Repositories
             carsList = carsList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             return (carsList, totalPages);
         }
+
+        public async Task<(IEnumerable<Car>, int)> GetPaginatedAdvanceCarFiltersAsync(int page, int pageSize, Car carObj)
+        {
+            var query = _dbContext.Cars.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(carObj.Name))
+            {
+                query = query.Where(car => car.Name == carObj.Name);
+            }
+            if (carObj.EngineCapacity > 0)
+            {
+                query = query.Where(car => car.EngineCapacity == carObj.EngineCapacity);
+            }
+            if (carObj.FuelCapacity > 0)
+            {
+                query = query.Where(car => car.FuelCapacity == carObj.FuelCapacity);
+            }
+            if (carObj.Seats > 0)
+            {
+                query = query.Where(car => car.Seats == carObj.Seats);
+            }
+            if (carObj.ManufacturerId > 0)
+            {
+                query = query.Where(car => car.ManufacturerId == carObj.ManufacturerId);
+            }
+            if (carObj.ColorId > 0)
+            {
+                query = query.Where(car => car.ColorId == carObj.ColorId);
+            }
+            if (carObj.EngineId > 0)
+            {
+                query = query.Where(car => car.EngineId == carObj.EngineId);
+            }
+            if (carObj.BrakeId > 0)
+            {
+                query = query.Where(car => car.BrakeId == carObj.BrakeId);
+            }
+            var totalCount = query.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return (await query.ToListAsync(), totalPages);
+        }
     }
 }

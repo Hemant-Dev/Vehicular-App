@@ -89,3 +89,20 @@ GET {{VehicularApp_HostAddress}}/api/car/paginated?page=1&pageSize=3
 GET {{VehicularApp_HostAddress}}/api/car/filter?page=1&pageSize=3&filter=1
 
 ###
+
+POST {{VehicularApp_HostAddress}}/api/car/advanceFilterPaginated?page=1&pageSize=4
+Content-Type: application/json
+
+{
+  "id": 0,
+  "name": "",
+  "engineCapacity": 0,
+  "engineId": 0,
+  "fuelCapacity": 0,
+  "brakeId": 0,
+  "seats": 0,
+  "manufacturerId": 0,
+  "colorId": 1
+}
+
+###

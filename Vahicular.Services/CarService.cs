@@ -137,6 +137,7 @@ namespace Vahicular.Services
 
         public async Task<(IEnumerable<GetCarDTO>, int)> GetPaginatedCarDTOList(int page, int pageSize)
         {
+
             var paginatedCarListAndTotalPages = await _carRepository.GetPaginatedData(page, pageSize);
             var paginatedCarDTOList = paginatedCarListAndTotalPages.Item1.Select(car => new GetCarDTO(
                        car.Id, car.Name, car.EngineCapacity, car.EngineId, car.FuelCapacity, car.BrakeId, car.Seats, car.ManufacturerId, car.ColorId
@@ -151,6 +152,26 @@ namespace Vahicular.Services
                     car.Id, car.Name, car.EngineCapacity, car.EngineId, car.FuelCapacity, car.BrakeId, car.Seats, car.ManufacturerId, car.ColorId
                 ));
             return (paginatedCarDTOFilteredList, paginatedCarFilteredListAndTotalPages.Item2);
+        }
+
+        public async Task<(IEnumerable<GetCarDTO>, int)> GetPaginatedAdvanceFilteredCarDTOList(int page, int pageSize, GetCarDTO carDTO)
+        {
+            var paginatedAdvanceFilteredCarListAndTotalPages = await _carRepository.GetPaginatedAdvanceCarFiltersAsync(page, pageSize, new Car()
+            {
+                Id = carDTO.Id,
+                Name = carDTO.Name,
+                EngineCapacity = carDTO.EngineCapacity,
+                EngineId = carDTO.EngineId,
+                FuelCapacity = carDTO.FuelCapacity,
+                BrakeId = carDTO.BrakeId,
+                Seats = carDTO.Seats,
+                ManufacturerId = carDTO.ManufacturerId,
+                ColorId = carDTO.ColorId
+            });
+            var paginatedAdvanceFilteredCarDTOList = paginatedAdvanceFilteredCarListAndTotalPages.Item1.Select(car => new GetCarDTO(car.Id, car.Name, car.EngineCapacity, car.EngineId, car.FuelCapacity, car.BrakeId, car.Seats, car.ManufacturerId, car.ColorId));
+
+            return (paginatedAdvanceFilteredCarDTOList, paginatedAdvanceFilteredCarListAndTotalPages.Item2);
+
         }
     }
 }

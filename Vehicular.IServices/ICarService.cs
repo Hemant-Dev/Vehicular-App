@@ -18,5 +18,6 @@ namespace Vehicular.IServices
         Task<(IEnumerable<GetCarDTO>, int)> GetPaginatedFilteredCarDTOList(int page, int pageSize, string filter);
         Task<IEnumerable<GetCarDTO>> GetAdvanceFilteredCarDTOList(GetCarDTO carDTO);
         Task<(IEnumerable<GetCarDTO>, int)> GetPaginatedCarDTOList(int page, int pageSize);
+        Task<(IEnumerable<GetCarDTO>, int)> GetPaginatedAdvanceFilteredCarDTOList(int page, int pageSize, GetCarDTO carDTO);
     }
 }

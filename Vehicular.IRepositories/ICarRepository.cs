@@ -18,5 +18,6 @@ namespace Vehicular.IRepositories
         Task<(IEnumerable<Car>, int)> GetPaginatedCarFiltersAsync(int page, int pageSize, string filter);
         Task<IEnumerable<Car>> GetCarAdvanceFilterAsync(Car carObj);
         Task<(IEnumerable<Car>, int)> GetPaginatedData(int page, int pageSize);
+        Task<(IEnumerable<Car>, int)> GetPaginatedAdvanceCarFiltersAsync(int page, int pageSize, Car carObj);
     }
 }

@@ -233,7 +233,7 @@ namespace VehicularApp.Controllers
             }
         }
 
-        // POST api/<CarController>/advancefilter?searchName=''
+        // POST api/<CarController>/advancefilter
         [HttpPost("advancefilter")]
         public async Task<ActionResult<IEnumerable<GetCarDTO>>> GetAdvanceFilteredCars([FromBody] GetCarDTO carDTO)
         {
@@ -286,6 +286,23 @@ namespace VehicularApp.Controllers
                 return NotFound("Page No cannot be negative!!");
             }
 
+        }
+
+        // POST api/<CarController>/advancefilter
+        [HttpPost("advanceFilterPaginated")]
+        public async Task<ActionResult<Paginated>> GetPaginatedAdvanceFilteredCarAsync(int page, int pageSize,[FromBody] GetCarDTO carDTO)
+        {
+            if(page > 0)
+            {
+                var paginatedAdvanceCarDTOListAndTotalPages = await _carService.GetPaginatedAdvanceFilteredCarDTOList(page, pageSize, carDTO);
+                var result = new Paginated()
+                {
+                    CarDTOs = paginatedAdvanceCarDTOListAndTotalPages.Item1,
+                    TotalPages = paginatedAdvanceCarDTOListAndTotalPages.Item2
+                };
+                return Ok(result);
+            }
+            return NotFound("Page No cannot be negative!!");
         }
     }
 }
